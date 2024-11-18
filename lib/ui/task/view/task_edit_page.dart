@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:todo_daily/ui/task/view_model/task_view_model.dart';
+import 'package:todo_daily/ui/task/view_model/riverpod/task_provider.dart';
+import 'package:todo_daily/ui/task/view_model/task_edit_view_model.dart';
 
 class TaskEditPage extends ConsumerWidget {
   final int taskIndex;
@@ -11,6 +11,8 @@ class TaskEditPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final taskList = ref.watch(todoListProvider);
     final controller = TextEditingController(text: taskList[taskIndex]);
+
+    final viewModel = TaskEditViewModel(ref, controller);
 
     return Scaffold(
       appBar: AppBar(
@@ -28,18 +30,13 @@ class TaskEditPage extends ConsumerWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                if (controller.text.isNotEmpty) {
-                  final notifier = ref.read(todoListProvider.notifier);
-                  notifier.editTask(taskIndex, controller.text);
-                  controller.clear();
-                  context.push('/a');
-                }
+                viewModel.doEdit(context, taskIndex);
               },
-              child: Icon(Icons.add),
+              child: const Icon(Icons.add),
             ),
             ElevatedButton(
               onPressed: () {
-                context.go('/a');
+                viewModel.goBack(context);
               },
               child: const Icon(Icons.post_add),
             ),

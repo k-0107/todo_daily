@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-part 'task_view_model.g.dart';
+part 'task_provider.g.dart';
 
 @riverpod
 class TodoList extends _$TodoList {
@@ -13,10 +12,8 @@ class TodoList extends _$TodoList {
   void addTask(String task) {
     // 変更前のデータ
     final oldState = state;
-    debugPrint('$oldState');
     // 変更後のデータ
     final newState = [...oldState, task];
-    debugPrint('$newState');
     // 上書き
     state = newState;
   }
@@ -27,7 +24,6 @@ class TodoList extends _$TodoList {
     final oldState = state;
     // 指定したインデックスのタスクを新しい内容に変更
     final updatedState = [...oldState];
-    updatedState[index] = newTask;
     // 上書き
     state = updatedState;
   }

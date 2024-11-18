@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_daily/ui/task/view_model/task_view_model.dart';
+import 'package:todo_daily/ui/task/view_model/riverpod/task_provider.dart';
+import 'package:todo_daily/ui/task/view_model/task_list_view_model.dart';
 
 class TaskListPage extends ConsumerWidget {
   const TaskListPage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final todoList = ref.watch(todoListProvider);
+    final viewModel = TaskListViewModel(ref);
 
     return Scaffold(
       appBar: AppBar(
@@ -20,10 +21,7 @@ class TaskListPage extends ConsumerWidget {
               child: ReorderableListView.builder(
                 itemCount: todoList.length,
                 onReorder: (oldIndex, newIndex) {
-                  // リストを並べ替える処理
-                  if (newIndex > oldIndex) newIndex -= 1;
-                  final notifier = ref.read(todoListProvider.notifier);
-                  notifier.reorderTask(oldIndex, newIndex);
+                  viewModel.reorderTask(context, oldIndex, newIndex);
                 },
                 itemBuilder: (c, i) {
                   return Card(
@@ -35,15 +33,13 @@ class TaskListPage extends ConsumerWidget {
                         children: [
                           IconButton(
                             onPressed: () {
-                              context.go('/c', extra: i);
+                              viewModel.gotoEditPage(context, i);
                             },
                             icon: const Icon(Icons.edit),
                           ),
                           IconButton(
                             onPressed: () {
-                              final notifier =
-                                  ref.read(todoListProvider.notifier);
-                              notifier.deleteTask(i);
+                              viewModel.deleteTask(context, i);
                             },
                             icon: const Icon(Icons.delete),
                           ),
@@ -60,7 +56,7 @@ class TaskListPage extends ConsumerWidget {
                 alignment: Alignment.bottomRight,
                 child: FloatingActionButton(
                   onPressed: () {
-                    context.push('/b');
+                    viewModel.goAddPage(context);
                   },
                   child: const Icon(Icons.add),
                 ),

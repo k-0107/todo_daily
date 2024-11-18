@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:todo_daily/ui/task/view_model/task_view_model.dart';
+import 'package:todo_daily/ui/task/view_model/task_add_view_model.dart';
 
 class TaskAddPage extends ConsumerWidget {
   TaskAddPage({super.key});
@@ -9,6 +8,7 @@ class TaskAddPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = TaskAddViewModel(controller, ref);
     return Scaffold(
       appBar: AppBar(
         title: const Text('タスク追加'),
@@ -25,18 +25,13 @@ class TaskAddPage extends ConsumerWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                if (controller.text.isNotEmpty) {
-                  final notifier = ref.read(todoListProvider.notifier);
-                  notifier.addTask(controller.text);
-                  controller.clear();
-                  context.push('/a');
-                }
+                viewModel.addTask(context);
               },
               child: const Icon(Icons.add),
             ),
             ElevatedButton(
               onPressed: () {
-                context.pop('/a');
+                viewModel.goBack(context);
               },
               child: const Icon(Icons.post_add),
             ),

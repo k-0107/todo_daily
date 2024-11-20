@@ -10,9 +10,14 @@ class TaskAddViewModel {
   final WidgetRef ref;
 
   void addTask(BuildContext context) {
+    final taskList = ref.watch(todoListProvider);
+
     if (controller.text.isNotEmpty) {
       final notifier = ref.read(todoListProvider.notifier);
-      notifier.addTask(controller.text);
+      notifier.addTask(
+        taskList.length,
+        controller.text,
+      );
       controller.clear();
       context.push('/');
     }

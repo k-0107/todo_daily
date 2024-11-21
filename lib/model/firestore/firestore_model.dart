@@ -11,11 +11,24 @@ class FirestoreModel {
     });
   }
 
-  // Future<void> readTask() async {}
   Future<void> updateTask(int index, String updatedTask) async {
     await db.collection('task').doc('$index').update({
       'task': updatedTask,
     });
   }
-  // Future<void> delete() async {}
+
+  Future<void> deleteTask(int index) async {
+    await db.collection('task').doc('$index').delete();
+  }
+
+  Stream<List<Map<String, dynamic>>> fetchTasks() {
+    return db.collection('task').snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) {
+        return {
+          'id': doc.id,
+          ...doc.data(),
+        };
+      }).toList();
+    });
+  }
 }

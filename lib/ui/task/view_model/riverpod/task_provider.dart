@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:todo_daily/model/firestore/firestore_model.dart';
 part 'task_provider.g.dart';
@@ -15,18 +15,13 @@ class TodoList extends _$TodoList {
   // データを変更する関数
   Future<void> addTask(int index, String task) async {
     // Firestoreにタスクを保存
-    try {
-      await firestore.createTask(index, task);
-      // 変更前のデータ
-      final oldState = state;
-      // 変更後のデータ
-      final newState = [...oldState, task];
-      // 上書き
-      state = newState;
-    } catch (e) {
-      debugPrint('Error while adding task: $e');
-      rethrow; // 必要に応じてエラーを再スロー
-    }
+    await firestore.createTask(index, task);
+    // 変更前のデータ
+    final oldState = state;
+    // 変更後のデータ
+    final newState = [...oldState, task];
+    // 上書き
+    state = newState;
   }
 
   // タスクを編集する関数
@@ -41,14 +36,14 @@ class TodoList extends _$TodoList {
     state = updatedState;
   }
 
-  void deleteTask(int index) {
+  Future<void> deleteTask(int index) async {
+    await firestore.deleteTask(index);
     // 変更前のデータ
     final oldState = state;
 
     // 新しいリストを作成し、指定されたインデックスの要素を削除
     final updatedState = [...oldState];
     updatedState.removeAt(index);
-
     //final updatedState = [...oldState]..removeAt(index); 上2行はこれでもOK(カスケード演算子)
 
     // 更新されたリストで state を上書き

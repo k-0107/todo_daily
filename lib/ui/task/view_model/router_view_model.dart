@@ -10,7 +10,7 @@ class RouterViewModel {
       routes: [
         GoRoute(
           path: '/',
-          builder: (context, state) => const TaskListPage(),
+          builder: (context, state) => TaskListPage(),
         ),
         GoRoute(
           path: '/t_add',

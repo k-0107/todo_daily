@@ -9,39 +9,54 @@ class TaskEditPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final taskList = ref.watch(todoListProvider);
-    final controller = TextEditingController(text: taskList[taskIndex]);
-
-    final viewModel = TaskEditViewModel(ref, controller);
+    final taskListAsync =
+        ref.watch(taskStreamProvider); // taskStreamProviderからデータを取得
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('タスク編集'),
+        title: Text('タスク編集'),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            TextField(
-              controller: controller,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'タスク編集  (男に二言はないぞ!!)',
-              ),
+      body: taskListAsync.when(
+        data: (taskList) {
+          // taskListが空でないか確認
+          if (taskIndex >= taskList.length) {
+            return const Center(child: Text('タスクが見つかりません'));
+          }
+
+          final controller =
+              TextEditingController(text: taskList[taskIndex]['task']);
+          final viewModel = TaskEditViewModel(ref, controller);
+
+          return Center(
+            child: Column(
+              children: [
+                TextField(
+                  controller: controller,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'タスク編集',
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    viewModel.doEdit(context, taskIndex);
+                  },
+                  child: const Icon(Icons.save),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    viewModel.goBack(context);
+                  },
+                  child: const Icon(Icons.cancel),
+                ),
+              ],
             ),
-            ElevatedButton(
-              onPressed: () {
-                viewModel.doEdit(context, taskIndex);
-              },
-              child: const Icon(Icons.add),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                viewModel.goBack(context);
-              },
-              child: const Icon(Icons.post_add),
-            ),
-          ],
-        ),
+          );
+        },
+        loading: () =>
+            const Center(child: CircularProgressIndicator()), // ローディング中
+        error: (error, stackTrace) =>
+            Center(child: Text('エラーが発生しました: $error')), // エラー時
       ),
     );
   }

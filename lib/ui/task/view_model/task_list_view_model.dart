@@ -7,11 +7,11 @@ class TaskListViewModel {
   TaskListViewModel(this.ref);
   final WidgetRef ref;
 
-  void reorderTask(BuildContext context, int oldIndex, int newIndex) {
-    if (newIndex > oldIndex) newIndex -= 1;
-    final notifier = ref.read(todoListProvider.notifier);
-    notifier.reorderTask(oldIndex, newIndex);
-  }
+  // void reorderTask(BuildContext context, int oldIndex, int newIndex) {
+  //   if (newIndex > oldIndex) newIndex -= 1;
+  //   final notifier = ref.read(todoListProvider.notifier);
+  //   notifier.reorderTask(oldIndex, newIndex);
+  // }
 
   void gotoEditPage(BuildContext context, int index) {
     context.go('/t_edit', extra: index);

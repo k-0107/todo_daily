@@ -3,6 +3,14 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:todo_daily/model/firestore/firestore_model.dart';
 part 'task_provider.g.dart';
 
+// Firestore からタスクを取得するストリームプロバイダ
+@riverpod
+Stream<List<Map<String, dynamic>>> taskStream(ref) {
+  final firestore = FirestoreModel();
+  return firestore.fetchTasks();
+}
+
+// TodoList クラス（ローカルでタスクを管理するプロバイダ）
 @riverpod
 class TodoList extends _$TodoList {
   final firestore = FirestoreModel();
@@ -50,10 +58,10 @@ class TodoList extends _$TodoList {
     state = updatedState;
   }
 
-  void reorderTask(int oldIndex, int newIndex) {
-    final updatedList = [...state];
-    final task = updatedList.removeAt(oldIndex);
-    updatedList.insert(newIndex, task);
-    state = updatedList;
-  }
+  // void reorderTask(int oldIndex, int newIndex) {
+  //   final updatedList = [...state];
+  //   final task = updatedList.removeAt(oldIndex);
+  //   updatedList.insert(newIndex, task);
+  //   state = updatedList;
+  // }
 }

@@ -7,7 +7,7 @@ class TaskListPage extends ConsumerWidget {
   const TaskListPage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final taskStream = ref.watch(taskStreamProvider);
+    final taskStream = ref.watch(todoListProvider);
     final viewModel = TaskListViewModel(ref);
 
     return Scaffold(
@@ -46,7 +46,7 @@ class TaskListPage extends ConsumerWidget {
                     itemBuilder: (c, i) {
                       final task = tasks[i];
                       return Card(
-                        key: ValueKey(task['id']),
+                        key: ValueKey(task),
                         child: ListTile(
                           title: Text(task['task']),
                           trailing: Row(
@@ -54,13 +54,14 @@ class TaskListPage extends ConsumerWidget {
                             children: [
                               IconButton(
                                 onPressed: () {
-                                  viewModel.gotoEditPage(context, i);
+                                  debugPrint(task['ID']);
+                                  viewModel.gotoEditPage(context, task['ID']);
                                 },
                                 icon: const Icon(Icons.edit),
                               ),
                               IconButton(
                                 onPressed: () {
-                                  viewModel.deleteTask(context, i);
+                                  viewModel.deleteTask(context, task['ID']);
                                 },
                                 icon: const Icon(Icons.delete),
                               ),

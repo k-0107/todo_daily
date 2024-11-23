@@ -13,6 +13,8 @@ dependencies:
   flutter_riverpod:
   flutter_hooks:
   riverpod_annotation:
+  cloud_firestore:
+  firebase_core: ^3.8.0
 
 dev_dependencies:
   flutter_test:

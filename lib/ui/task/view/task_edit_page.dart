@@ -4,13 +4,19 @@ import 'package:todo_daily/ui/task/view_model/riverpod/task_provider.dart';
 import 'package:todo_daily/ui/task/view_model/task_edit_view_model.dart';
 
 class TaskEditPage extends ConsumerWidget {
-  final int taskIndex;
-  const TaskEditPage({super.key, required this.taskIndex});
+  final String taskID;
+  const TaskEditPage({super.key, required this.taskID});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final taskListAsync =
-        ref.watch(taskStreamProvider); // taskStreamProviderからデータを取得
+        ref.watch(todoListProvider); // taskStreamProviderからデータを取得
+
+    final taskList = ref.watch(todoListProvider).value ?? [];
+
+    final task = taskList.firstWhere(
+      (element) => element['ID'] == taskID,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -19,12 +25,11 @@ class TaskEditPage extends ConsumerWidget {
       body: taskListAsync.when(
         data: (taskList) {
           // taskListが空でないか確認
-          if (taskIndex >= taskList.length) {
+          if (taskList.isEmpty) {
             return const Center(child: Text('タスクが見つかりません'));
           }
 
-          final controller =
-              TextEditingController(text: taskList[taskIndex]['task']);
+          final controller = TextEditingController(text: task['task'] ?? '');
           final viewModel = TaskEditViewModel(ref, controller);
 
           return Center(
@@ -39,7 +44,7 @@ class TaskEditPage extends ConsumerWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    viewModel.doEdit(context, taskIndex);
+                    viewModel.doEdit(context, taskID);
                   },
                   child: const Icon(Icons.save),
                 ),

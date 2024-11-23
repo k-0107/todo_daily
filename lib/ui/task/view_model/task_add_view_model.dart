@@ -12,15 +12,22 @@ class TaskAddViewModel {
   void addTask(BuildContext context) {
     final taskList = ref.watch(todoListProvider);
 
-    if (controller.text.isNotEmpty) {
-      final notifier = ref.read(todoListProvider.notifier);
-      notifier.addTask(
-        taskList.length,
-        controller.text,
-      );
-      controller.clear();
-      context.push('/');
-    }
+    taskList.when(
+      data: (taskList) {
+        if (controller.text.isNotEmpty) {
+          final notifier = ref.read(todoListProvider.notifier);
+          notifier.addTask(
+            controller.text,
+          );
+          controller.clear();
+          context.push('/');
+        }
+      },
+      loading: () {},
+      error: (error, stackTrace) {
+        debugPrint('Error adding task: $error');
+      },
+    );
   }
 
   void goBack(BuildContext context) {

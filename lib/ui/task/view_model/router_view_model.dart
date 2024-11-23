@@ -19,8 +19,8 @@ class RouterViewModel {
         GoRoute(
             path: '/t_edit',
             builder: (context, state) {
-              final taskIndex = state.extra as int;
-              return TaskEditPage(taskIndex: taskIndex);
+              final taskID = state.extra as String;
+              return TaskEditPage(taskID: taskID);
             }),
       ],
     );

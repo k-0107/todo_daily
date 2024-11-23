@@ -8,7 +8,7 @@ class TaskEditViewModel {
   final WidgetRef ref;
   final TextEditingController controller;
 
-  void doEdit(BuildContext context, int taskIndex) {
+  void doEdit(BuildContext context, String taskIndex) {
     if (controller.text.isNotEmpty) {
       final notifier = ref.read(todoListProvider.notifier);
       notifier.editTask(taskIndex, controller.text);

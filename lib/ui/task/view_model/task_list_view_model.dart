@@ -13,7 +13,7 @@ class TaskListViewModel {
   //   notifier.reorderTask(oldIndex, newIndex);
   // }
 
-  void gotoEditPage(BuildContext context, int index) {
+  void gotoEditPage(BuildContext context, String index) {
     context.go('/t_edit', extra: index);
   }
 
@@ -21,7 +21,7 @@ class TaskListViewModel {
     context.push('/t_add');
   }
 
-  void deleteTask(BuildContext context, int index) {
+  void deleteTask(BuildContext context, String index) {
     final notifier = ref.read(todoListProvider.notifier);
     notifier.deleteTask(index);
   }

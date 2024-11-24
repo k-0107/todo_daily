@@ -90,6 +90,6 @@
   "color": {
     "prefix": "color",
     "scope": "dart",
-    "body": ["color: Colors."]
+    "body": ["Colors."]
   }
 }

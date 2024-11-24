@@ -45,3 +45,7 @@ app.*.map.json
 ios/Runner.xcodeproj/project.pbxproj
 pubspec.lock
 ios/Runner/GoogleService-Info.plist
+firebase.json
+pubspec.lock
+ios/Runner.xcodeproj/project.pbxproj
+macos/Flutter/GeneratedPluginRegistrant.swift

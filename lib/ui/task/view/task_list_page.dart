@@ -67,7 +67,7 @@ class TaskListPage extends ConsumerWidget {
                       itemBuilder: (c, i) {
                         final task = tasks[i];
                         return Card(
-                          color: const Color.fromARGB(120, 120, 134, 68),
+                          color: const Color.fromARGB(255, 213, 177, 113),
                           key: ValueKey(task),
                           child: ListTile(
                             title: Text(

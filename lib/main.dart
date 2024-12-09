@@ -7,7 +7,7 @@ import 'package:todo_daily/ui/task/view_model/router_view_model.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.ios,
   );
 
   runApp(

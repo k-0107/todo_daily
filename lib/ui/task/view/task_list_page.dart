@@ -17,9 +17,9 @@ class TaskListPage extends ConsumerWidget {
           'To DO Daily',
           style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: const Color.fromARGB(120, 241, 238, 215),
+        backgroundColor: const Color.fromARGB(255, 249, 248, 241),
       ),
-      backgroundColor: const Color.fromARGB(120, 253, 250, 224),
+      backgroundColor: const Color.fromARGB(255, 186, 187, 178),
       body: taskStream.when(
         data: (tasks) {
           if (tasks.isEmpty) {
@@ -46,7 +46,7 @@ class TaskListPage extends ConsumerWidget {
                           },
                           child: const Icon(Icons.add),
                           backgroundColor:
-                              const Color.fromARGB(170, 97, 111, 70),
+                              const Color.fromARGB(170, 151, 160, 135),
                           foregroundColor: Colors.white,
                         ),
                       ),
@@ -67,7 +67,7 @@ class TaskListPage extends ConsumerWidget {
                       itemBuilder: (c, i) {
                         final task = tasks[i];
                         return Card(
-                          color: const Color.fromARGB(255, 213, 177, 113),
+                          color: const Color.fromARGB(255, 248, 245, 224),
                           key: ValueKey(task),
                           child: ListTile(
                             title: Text(
@@ -113,8 +113,7 @@ class TaskListPage extends ConsumerWidget {
                             viewModel.goAddPage(context);
                           },
                           child: const Icon(Icons.add),
-                          backgroundColor:
-                              const Color.fromARGB(170, 97, 111, 70),
+                          backgroundColor: const Color.fromARGB(170, 0, 0, 0),
                           foregroundColor: Colors.white,
                         ),
                       ),
